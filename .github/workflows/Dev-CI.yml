@@ -43,6 +43,7 @@ jobs:
           path: ./Test2Webs/Internal.Web/bin/Release/net6.0/win-x64
 
       - uses: azure/pipelines@v1
+        if: (steps.changes.outputs.Internal == 'true' || steps.changes.outputs.Common == 'true')      
         with:
           azure-devops-project-url: https://dev.azure.com/jessbrox809/Test2Webs
           azure-pipeline-name: Internal-Dev-Deploy
@@ -62,6 +63,7 @@ jobs:
           path: ./Test2Webs/External.Web/bin/Release/net6.0/win-x64
 
       - uses: azure/pipelines@v1
+        if: (steps.changes.outputs.External == 'true' || steps.changes.outputs.Common == 'true')      
         with:
           azure-devops-project-url: https://dev.azure.com/jessbrox809/Test2Webs
           azure-pipeline-name: External-Dev-Deploy

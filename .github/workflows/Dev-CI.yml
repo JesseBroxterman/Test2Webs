@@ -25,11 +25,11 @@ jobs:
         with:
           filters: |
             Common:
-            - './Test2Webs/Common'
+            - 'Test2Webs/Common/**'
             External:
-            - './Test2Webs/External.Web'
+            - 'Test2Webs/External.Web/**'
             Internal:
-            - './Test2Webs/Internal.Web'       
+            - 'Test2Webs/Internal.Web/**'       
 
       - name: Build Internal
         if: (steps.changes.outputs.Internal == 'true' || steps.changes.outputs.Common == 'true')

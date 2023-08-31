@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Test2Webs-Internal
-          path: ./Test2Webs/Internal.Web/bin/Release/net6.0/win-x64
+          path: ./Test2Webs/Internal.Web/bin/Release/net6.0
 
       - uses: azure/pipelines@v1
         if: (steps.changes.outputs.Internal == 'true' || steps.changes.outputs.Common == 'true')      
@@ -60,7 +60,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Test2Webs-External
-          path: ./Test2Webs/External.Web/bin/Release/net6.0/win-x64
+          path: ./Test2Webs/External.Web/bin/Release/net6.0
 
       - uses: azure/pipelines@v1
         if: (steps.changes.outputs.External == 'true' || steps.changes.outputs.Common == 'true')      

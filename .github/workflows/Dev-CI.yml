@@ -31,9 +31,9 @@ jobs:
             Internal:
             - 'Test2Webs/Internal.Web/**'       
 
-      - name: Build Internal
+      - name: Publish Internal
         if: (steps.changes.outputs.Internal == 'true' || steps.changes.outputs.Common == 'true')
-        run: dotnet build ./Test2Webs/Internal.Web/Internal.Web.csproj --configuration Release
+        run: dotnet publish ./Test2Webs/Internal.Web/Internal.Web.csproj --configuration Release
 
       - name: Upload Internal Artifact
         if: (steps.changes.outputs.Internal == 'true' || steps.changes.outputs.Common == 'true')
@@ -51,9 +51,9 @@ jobs:
 
 
 
-      - name: Build External
+      - name: Publish External
         if: (steps.changes.outputs.External == 'true' || steps.changes.outputs.Common == 'true')
-        run: dotnet build ./Test2Webs/External.Web/External.Web.csproj --configuration Release
+        run: dotnet publish ./Test2Webs/External.Web/External.Web.csproj --configuration Release
 
       - name: Upload External Artifact
         if: (steps.changes.outputs.External == 'true' || steps.changes.outputs.Common == 'true')

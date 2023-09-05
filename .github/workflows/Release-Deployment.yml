@@ -13,14 +13,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - uses: octokit/request-action@v2.x
-        id: get_last_2_releases
-        with:
-         route: GET /repos/{owner}/{repo}/releases
-         owner: JesseBroxterman
-         repo: Test2Webs
-         per_page: 2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - run: "echo previous release: '${{ steps.get_last_2_releases.outputs.data }}'"          
+      - name: Get the 2nd release's tag name
+        shell: bash
+        run: |
+          releases=$(octokit/request-action@v1 \
+            with: \
+              url: https://api.github.com/repos/{{ github.repository }}/releases \
+              per_page: 2 \
+              sort: created_at \
+              order: desc)
+          tag_name=$(jq -r '.[1].tag_name' releases)
+          echo "{tag_name}={$tag_name}" >> $GITHUB_OUTPUT 

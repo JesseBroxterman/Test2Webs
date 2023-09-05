@@ -24,16 +24,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Testing Data
-        run: "echo Requested Data: '${{steps.get_last_2_releases.outputs.data}}'"
-
-      - name: Determine Type
-        run: |
-          const parsedData = JSON.parse(${{steps.get_last_2_releases.outputs.data}})
-          if (Array.isArray(parsedData)) {
-            console.log("GitHub API response is an array.");
-          } else {
-            console.log("GitHub API response is not an array.");
-          }
-
-
-
+        run: "echo Requested Data: '${{fromJson(steps.get_last_2_releases.outputs.data)}}'"

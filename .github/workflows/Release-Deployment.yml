@@ -23,11 +23,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
-      - run: "echo previous release: '${{ steps.get_last_2_releases.outputs.data }}'"
+      - run: "echo previous release: '${{steps.get_last_2_releases.outputs.data}}'"
 
       - shell: bash
         run: |
-          tag_name=$(jq -r '.[1].tag_name' ${{ steps.get_last_2_releases.outputs.data }})
+          tag_name=$(jq -r '.[1].tag_name' ${{steps.get_last_2_releases.outputs.data}})
           echo "The second release's tag name is: $tag_name"
 
 

@@ -20,6 +20,8 @@ jobs:
          owner: JesseBroxterman
          repo: Test2Webs
          per_page: 2
+         mediaType: |
+           format: raw
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

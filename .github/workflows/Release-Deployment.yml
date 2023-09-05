@@ -22,12 +22,18 @@ jobs:
          per_page: 2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-      - run: "echo previous release: '${{fromJson(steps.get_last_2_releases.outputs.data)}}'"
+
+      - name: Convert Release Array
+        id: conversion
+        run: |
+          last_2_releases=$(jq -r 'first' ${{ steps.get_last_2_releases.outputs.data }})
+          last_2_releases=last_2_releases >> $GITHUB_OUTPUT
+      
+      - run: "echo previous release: '${{steps.conversion.outputs.last_2_releases}}'"
 
       - shell: bash
         run: |
-          tag_name=$(jq -r '.[1].tag_name' ${{fromJson(steps.get_last_2_releases.outputs.data)}})
+          tag_name=$(jq -r '.[1].tag_name' ${{steps.conversion.outputs.last_2_releases}})
           echo "The second release's tag name is: $tag_name"
 
 

@@ -13,7 +13,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: View the github context
-        run: echo "$GITHUB_CONTEXT"
+      - uses: octokit/request-action@v2
+        id: get_last_2_releases
+        with:
+          url: https://api.github.com/repos/{owner}/{repo}/releases
+          per_page: 5
+          sort: created_at
+          order: desc
         env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: "echo previous release: '${{ steps.get_last_2_releases.outputs.data }}'"          

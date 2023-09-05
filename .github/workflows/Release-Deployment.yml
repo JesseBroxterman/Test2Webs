@@ -16,10 +16,10 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: get_last_2_releases
         with:
-          url: https://api.github.com/repos/{owner}/{repo}/releases
-          per_page: 5
-          sort: created_at
-          order: desc
+         route: GET /repos/{owner}/{repo}/releases
+         owner: JesseBroxterman
+         repo: Test2Webs
+         per_page: 2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

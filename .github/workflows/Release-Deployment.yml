@@ -26,4 +26,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Testing Data
-        run: "echo Requested Data: '${{fromJson(steps.get_last_2_releases.outputs.data)}}'"
+        run: "echo Requested Data: '${{toJson(steps.get_last_2_releases.outputs.data)}}'"

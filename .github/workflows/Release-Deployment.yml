@@ -28,7 +28,8 @@ jobs:
 
       - name: Determine Type
         run: |
-          type=$(typeof ${{steps.get_last_2_releases.outputs.data}})
+          temp_variable=${{steps.get_last_2_releases.outputs.data}}
+          type=$(typeof $temp_variable)
           echo $type
 
 

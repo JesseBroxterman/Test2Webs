@@ -27,3 +27,13 @@ jobs:
 
       - name: Testing Data
         run: "echo Requested Data: '${{toJson(steps.get_last_2_releases.outputs.data)}}'"
+
+      - name: Get Previous Tag
+        id: conversion
+        run: |
+          last_2_releases=$(jq -r '.[1].tag_name' ${{ toJson(steps.get_last_2_releases.outputs.data) }})
+          last_2_releases=last_2_releases >> $GITHUB_OUTPUT
+          
+      - run: "echo previous release: '${{steps.conversion.outputs.last_2_releases}}'"
+
+       

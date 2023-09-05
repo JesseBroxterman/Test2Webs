@@ -26,7 +26,7 @@ jobs:
       - name: Convert Release Array
         id: conversion
         run: |
-          last_2_releases=$(jq -r 'first' ${{ steps.get_last_2_releases.outputs.data }})
+          last_2_releases=$(jq -r 'slice(0,1)' ${{ steps.get_last_2_releases.outputs.data }})
           last_2_releases=last_2_releases >> $GITHUB_OUTPUT
       
       - run: "echo previous release: '${{steps.conversion.outputs.last_2_releases}}'"

@@ -2,7 +2,7 @@ name: release-publish artifact and trigger Azure to retrieve
 
 on:
    release:
-     types: [published]
+     types: [created]
    workflow_dispatch:
 
 jobs:

@@ -1,8 +1,8 @@
-name: release - publish artifact and trigger Azure to retrieve
+name: release-publish artifact and trigger Azure to retrieve
 
 on:
    release:
-     published
+     types: [published]
    workflow_dispatch:
 
 jobs:

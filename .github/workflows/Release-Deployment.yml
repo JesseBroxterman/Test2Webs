@@ -23,7 +23,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
-      - run: "echo previous release: '${ steps.get_last_2_releases.outputs.data }'"
+      - run: "echo previous release: '${{ steps.get_last_2_releases.outputs.data }}'"
 
       - shell: bash
         run: |

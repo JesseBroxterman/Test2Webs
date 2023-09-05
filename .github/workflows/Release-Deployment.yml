@@ -26,6 +26,10 @@ jobs:
       - name: Testing Data
         run: "echo Requested Data: '${{steps.get_last_2_releases.outputs.data}}'"
 
+      - name: Determine Type
+        run: |
+          type=$(typeof ${{steps.get_last_2_releases.outputs.data}})
+          echo $type
 
 
 

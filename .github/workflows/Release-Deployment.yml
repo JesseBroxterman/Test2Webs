@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - uses: octokit/request-action@v2
+      - uses: octokit/request-action@v2.x
         id: get_last_2_releases
         with:
           url: https://api.github.com/repos/{owner}/{repo}/releases

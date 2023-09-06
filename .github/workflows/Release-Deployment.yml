@@ -38,6 +38,6 @@ jobs:
 
       - name: Get tag name of second release
         run: |
-          data = ${{ steps.get_last_2_releases.outputs.data }}
+          data = ${{ steps.get_latest_release.outputs.outputs.data }}
           # second_release_tag_name = data.repository.releases.nodes[1].tagName
           # echo second_release: "${second_release_tag_name}"

@@ -37,7 +37,7 @@ jobs:
       - uses: dorny/paths-filter@v2
         id: changes
         with:
-          ref: ${{ steps.previous_release.outputs.tagName }}
+          base: ${{ steps.previous_release.outputs.tagName }}
           filters: |
             Common:
             - 'Test2Webs/Common/**'

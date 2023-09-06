@@ -28,4 +28,4 @@ jobs:
        
       - name: Get Array Item
         run: |
-          array=${{fromJson(steps.get_last_2_releases.outputs.data[1])}}
+          array=fromJson(${{steps.get_last_2_releases.outputs.data}})

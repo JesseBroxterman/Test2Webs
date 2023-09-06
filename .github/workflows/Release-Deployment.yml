@@ -10,13 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:  
-      - name: View the github context
-        run: echo "$GITHUB_CONTEXT"
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-
-      - uses: octokit/graphql-action@v2.x
-        id: get_latest_release
+      - name: Get Last 2 Releases
+        uses: octokit/graphql-action@v2.x
+        id: get_latest_releases
         with:
           query: |
             query release($owner:String!,$repo:String!) {
@@ -32,11 +28,58 @@ jobs:
             owner: JesseBroxterman
             repo: Test2Webs
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-      - run: "echo 'latest release: ${{ steps.get_latest_release.outputs.data }}'"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}         
 
-      - name: Get tag name of second release
-        run: |
-          tagName=${{ fromJson(steps.get_latest_release.outputs.data).repository.releases.nodes[1].tagName }}
+      - name: Get Tag Name of Previous Release
+        id: previous_release
+        run: echo "tagName=${{ fromJson(steps.get_latest_releases.outputs.data).repository.releases.nodes[1].tagName }}" >> $GITHUB_OUTPUT
 
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          ref: ${{ steps.previous_release.outputs.tagName }}
+          filters: |
+            Common:
+            - 'Test2Webs/Common/**'
+            External:
+            - 'Test2Webs/External.Web/**'
+            Internal:
+            - 'Test2Webs/Internal.Web/**'  
+
+      - name: Publish Internal
+        if: (steps.changes.outputs.Internal == 'true' || steps.changes.outputs.Common == 'true')
+        run: dotnet publish ./Test2Webs/Internal.Web/Internal.Web.csproj --configuration Release
+
+      - name: Upload Internal Artifact
+        if: (steps.changes.outputs.Internal == 'true' || steps.changes.outputs.Common == 'true')
+        uses: actions/upload-artifact@v2
+        with:
+          name: Test2Webs-Internal
+          path: ./Test2Webs/Internal.Web/bin/Release/net6.0
+
+      - uses: azure/pipelines@v1
+        if: (steps.changes.outputs.Internal == 'true' || steps.changes.outputs.Common == 'true')      
+        with:
+          azure-devops-project-url: https://dev.azure.com/jessbrox809/Test2Webs
+          azure-pipeline-name: Internal-Dev-Deploy
+          azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
+
+
+
+      - name: Publish External
+        if: (steps.changes.outputs.External == 'true' || steps.changes.outputs.Common == 'true')
+        run: dotnet publish ./Test2Webs/External.Web/External.Web.csproj --configuration Release
+
+      - name: Upload External Artifact
+        if: (steps.changes.outputs.External == 'true' || steps.changes.outputs.Common == 'true')
+        uses: actions/upload-artifact@v2
+        with:
+          name: Test2Webs-External
+          path: ./Test2Webs/External.Web/bin/Release/net6.0
+
+      - uses: azure/pipelines@v1
+        if: (steps.changes.outputs.External == 'true' || steps.changes.outputs.Common == 'true')      
+        with:
+          azure-devops-project-url: https://dev.azure.com/jessbrox809/Test2Webs
+          azure-pipeline-name: External-Dev-Deploy
+          azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}            

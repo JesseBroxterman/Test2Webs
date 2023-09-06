@@ -38,13 +38,6 @@ jobs:
 
       - name: Get tag name of second release
         run: |
-          import json
-
-          # The data is a JSON object, so we need to parse it first
-          data = json.loads("""${{ steps.get_last_2_releases.outputs.data }}""")
-
-          # Get the tag name of the second release
+          data = fromJson(${{ steps.get_last_2_releases.outputs.data }})
           second_release_tag_name = data.repository.releases.nodes[1].tagName
-
-          # Store the tag name of the second release in an output variable
-          echo "::set-output name=second_release_tag_name::${second_release_tag_name}"
+          echo second_release: "${second_release_tag_name}"

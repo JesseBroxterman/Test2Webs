@@ -13,19 +13,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - uses: octokit/request-action@v2.x
-        id: get_last_2_releases
+      - uses: octokit/graphql-action@v2.x
+        id: get_latest_release
         with:
-         route: GET /repos/{owner}/{repo}/releases
-         owner: JesseBroxterman
-         repo: Test2Webs
-         per_page: 2
+          query: |
+            query release($owner:String!,$repo:String!) {
+              repository(owner:$owner,name:$repo) {
+                releases(first:2) {
+                  nodes {
+                    tagName
+                  }
+                }
+              }
+            }
+          owner: ${{ github.event.repository.owner.name }}
+          repo: ${{ github.event.repository.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Testing Data
-        run: "echo Requested Data: '${{steps.get_last_2_releases.outputs.data}}'"
-       
-      - name: Get Array Item
-        run: |
-          array=fromJson(${{steps.get_last_2_releases.outputs.data}})
+          
+      - run: "echo 'latest release: ${{ steps.get_latest_release.outputs.data }}'"

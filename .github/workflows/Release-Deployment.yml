@@ -21,7 +21,7 @@ jobs:
           query: |
             query release($owner:String!,$repo:String!) {
               repository(owner:$owner,name:$repo) {
-                releases(first:1, after: $ref_name) {
+                releases(first:1, after: ${{ env.ref_name}}) {
                   nodes {
                     tagName
                   }

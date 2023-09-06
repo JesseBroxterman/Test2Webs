@@ -30,6 +30,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}         
 
+      - run: "echo 'latest release: ${{ steps.get_latest_release.outputs.data }}'"
+          
       - name: Get Tag Name of Previous Release
         id: previous_release
         run: echo "tagName=${{ fromJson(steps.get_latest_releases.outputs.data).repository.releases.nodes[1].tagName }}" >> $GITHUB_OUTPUT

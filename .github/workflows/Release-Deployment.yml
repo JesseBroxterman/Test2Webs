@@ -20,20 +20,9 @@ jobs:
          owner: JesseBroxterman
          repo: Test2Webs
          per_page: 2
-         mediaType: |
-           format: raw
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Testing Data
-        run: "echo Requested Data: '${{toJson(steps.get_last_2_releases.outputs.data[0])}}'"
-
-      - name: Get Previous Tag
-        id: conversion
-        run: |
-          last_2_releases=$(jq -r '.[1].tag_name' ${{ toJson(steps.get_last_2_releases.outputs.data[0]) }})
-          last_2_releases=last_2_releases >> $GITHUB_OUTPUT
-          
-      - run: "echo previous release: '${{steps.conversion.outputs.last_2_releases}}'"
-
+        run: "echo Requested Data: '${{steps.get_last_2_releases.outputs.data}}'"
        

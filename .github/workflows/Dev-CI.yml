@@ -4,9 +4,9 @@
 name: dev - build and trigger Azure to retrieve
 
 on:
-   push:
-     branches:
-       - main
+   # push:
+     # branches:
+       # - main
    workflow_dispatch:
 
 jobs:

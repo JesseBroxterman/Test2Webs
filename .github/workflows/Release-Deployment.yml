@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:  
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
       - uses: octokit/graphql-action@v2.x
         id: get_latest_release
         with:
@@ -26,8 +23,8 @@ jobs:
                 }
               }
             }
-          owner: ${{ github.event.repository.owner.name }}
-          repo: ${{ github.event.repository.name }}
+          owner: JesseBroxterman
+          repo: Test2Webs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           

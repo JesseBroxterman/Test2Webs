@@ -1,0 +1,49 @@
+name: test-jira
+
+on:
+   push:
+     branches:
+       - main
+   workflow_dispatch:
+
+jobs:
+  restore-build-publish:
+    runs-on: ubuntu-latest
+
+    steps:  
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Jira Login
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          
+      - name: Get Issue Properties
+        id: issue
+        uses: frieder/jira-issue-info@v1
+        with:
+          issue: ${{ vars.ISSUE_NUM }}
+
+      - name: Print Output
+        run: |
+          echo "Issue = ${{ steps.issue.outputs.issue }}"
+          echo "Summary = ${{ steps.issue.outputs.summary }}"
+          echo "Description = ${{ steps.issue.outputs.description }}"
+          echo "Type = ${{ steps.issue.outputs.type }}"
+          echo "Type ID = ${{ steps.issue.outputs.typeID }}"
+          echo "Status = ${{ steps.issue.outputs.status }}"
+          echo "Status ID = ${{ steps.issue.outputs.statusID }}"
+          echo "Priority = ${{ steps.issue.outputs.priority }}"
+          echo "Priority ID = ${{ steps.issue.outputs.priorityID }}"
+          echo "Labels = ${{ steps.issue.outputs.labels }}"
+          echo "Reporter Name = ${{ steps.issue.outputs.reporter }}"
+          echo "Reporter ID = ${{ steps.issue.outputs.reporterID }}"
+          echo "Assignee Name = ${{ steps.issue.outputs.assignee }}"
+          echo "Assignee ID = ${{ steps.issue.outputs.assigneeID }}"
+          echo "Components = ${{ steps.issue.outputs.components }}"
+          echo "Previous Status = ${{ steps.issue.outputs.previousStatus }}"
+          echo "Transition Status = ${{ steps.issue.outputs.transitionStatus }}"
+          echo 'JSON = ${{ steps.issue.outputs.json }}'

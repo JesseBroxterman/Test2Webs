@@ -38,7 +38,9 @@ jobs:
         id: issue
         uses: frieder/jira-issue-info@v1
         with:
-          issue: ${{ steps.get-issue-key.outputs.issue }}
+            issue: ${{ vars.ISSUE_NUM }}
+          # issue: ${{ steps.get-issue-key.outputs.issue }}
+          
         
       - name: Get Set Inputs
         run: |

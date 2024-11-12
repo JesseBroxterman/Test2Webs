@@ -27,12 +27,12 @@ jobs:
         with:
           string: ${{ github.event.pull_request.head.ref }}
 
-      - name: Transition issue
-        if: ${{ !startsWith(steps.get-issue-key.outputs.issue, 'ISD') }}
-        uses: atlassian/gajira-transition@master
-        with:
-          issue: ${{ steps.get-issue-key.outputs.issue }}
-          transition: "Done"
+      # - name: Transition issue
+      #   if: ${{ !startsWith(steps.get-issue-key.outputs.issue, 'ISD') }}
+      #   uses: atlassian/gajira-transition@master
+      #   with:
+      #     issue: ${{ steps.get-issue-key.outputs.issue }}
+      #     transition: "Done"
 
       - name: Get Issue Properties
         id: issue

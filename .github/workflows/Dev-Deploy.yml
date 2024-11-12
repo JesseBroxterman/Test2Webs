@@ -70,13 +70,13 @@ jobs:
         run: |
           echo label=$(jq -r '."${{ env.ISSUE_TYPE }}"' ./jira-issue-types.json) >> $GITHUB_ENV     
           
-      - name: Add labels
-        if: ${{ env.ISSUE_TYPE != 'Sub-task' }}      
-        uses: actions-ecosystem/action-add-labels@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          labels: "${{ env.label }}"
-          number: ${{ github.event.pull_request.number }}        
+      # - name: Add labels
+      #   if: ${{ env.ISSUE_TYPE != 'Sub-task' }}      
+      #   uses: actions-ecosystem/action-add-labels@v1
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     labels: "${{ env.label }}"
+      #     number: ${{ github.event.pull_request.number }}        
       
       - name: Increment Version
         id: increment-version

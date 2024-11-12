@@ -1,9 +1,6 @@
 name: tag-devDeploy
 
 on:
-   push:
-     branches:
-       - main
    workflow_dispatch:
 
 jobs:
@@ -15,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - name: Jira Login
         uses: atlassian/gajira-login@master
         env:
